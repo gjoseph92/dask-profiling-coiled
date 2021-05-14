@@ -4,7 +4,7 @@
 cat > postbuild.sh <<EOF
 #!/bin/bash
 
-python3 -m pip install git+https://github.com/gjoseph92/distributed-pyspy.git@e912bd5af0c84c699e3e38280b2789f1f0d6fc93
+python3 -m pip install git+https://github.com/gjoseph92/scheduler-profilers.git@8d59e7f8b2ab59e22f0937557fefe388eac6ea61
 EOF
 coiled env create -n profiling --conda environment.yml --post-build postbuild.sh
 rm postbuild.sh
