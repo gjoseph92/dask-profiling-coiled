@@ -74,7 +74,7 @@ def githack_link(path: Path):
 
 
 def speedscope_link(path: Path):
-    return f"https://www.speedscope.app/#profileURL={quote_plus(githack_link(path))}&title={quote_plus(path.stem)}"
+    return f"https://www.speedscope.app/#profileURL={quote_plus(githack_link(path))}"
 
 
 dir = Path(__file__).parent
