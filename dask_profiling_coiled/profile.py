@@ -89,7 +89,7 @@ if __name__ == "__main__":
     # This is key---otherwise we're uploading ~300MiB of graph to the scheduler
     dask.config.set({"optimization.fuse.active": False})
 
-    test_name = "cython-function-level"
+    test_name = "cython-gil-only"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
@@ -97,7 +97,7 @@ if __name__ == "__main__":
             subprocesses=True,
             idle=True,
             native=True,
-            function=True,
+            gil=True,
         ),
     ):
         main()
