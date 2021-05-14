@@ -12,6 +12,7 @@ readme = """\
 # Profiling results
 
 Speedscope profiles and dask performance reports of each profiling run.
+For all speedscope profiles, you want to look at `MainThread`.
 
 The filename of a profile _should_ correspond to the name of the commit that produced it.
 If you click on the commit name next to the file, you can see that commit and the code.
