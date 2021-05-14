@@ -24,6 +24,6 @@ To run:
 
 Adjust settings as you like in the `profile.py` script. Make sure to update `test_name` so you don't overwrite old outputs. Then:
 ```
-python dask_profiling_coiled/profile.py
+python dask_profiling_coiled/run_profile.py
 ```
 This will take 5-8 minutes, and produce a dask performance report and a speedscope JSON file which you can view in <https://speedscope.app/>.
