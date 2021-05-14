@@ -1,7 +1,6 @@
 import sys
 import time
 import pickle
-import datetime
 
 import coiled
 import dask
@@ -67,7 +66,6 @@ def main():
 if __name__ == "__main__":
     n_workers = 100
     cluster = coiled.Cluster(
-        # name="profiling",
         software="gjoseph92/profiling",
         n_workers=n_workers,
         worker_cpu=1,
@@ -91,15 +89,15 @@ if __name__ == "__main__":
     # This is key---otherwise we're uploading ~300MiB of graph to the scheduler
     dask.config.set({"optimization.fuse.active": False})
 
-    test_name = datetime.datetime.now().isoformat()
-    test_name = "cython-functions"
-    with distributed.performance_report(
-        f"results/{test_name}.html"
-    ), pyspy_on_scheduler(
-        f"results/{test_name}.json",
-        subprocesses=True,
-        idle=True,
-        native=True,
+    test_name = "cython"
+    with (
+        distributed.performance_report(f"results/{test_name}.html"),
+        pyspy_on_scheduler(
+            f"results/{test_name}.json",
+            subprocesses=True,
+            idle=True,
+            native=True,
+        ),
     ):
         main()
 
