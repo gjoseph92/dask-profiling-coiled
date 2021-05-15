@@ -1,6 +1,7 @@
 # Profiling results
 
 Speedscope profiles and dask performance reports of each profiling run.
+For all speedscope profiles, you want to look at `MainThread`.
 
 The filename of a profile _should_ correspond to the name of the commit that produced it.
 If you click on the commit name next to the file, you can see that commit and the code.
@@ -54,35 +55,49 @@ ARGS:
 
 
 ### cython-function-level
-* Performance report: [cython-function-level.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/5923b65464cf6fb78a6fdc7a119fa088cf6388cb/results/cython-function-level.html?raw=true)
-* Speedscope profile: [cython-function-level.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F5923b65464cf6fb78a6fdc7a119fa088cf6388cb%2Fresults%2Fcython-function-level.json%3Fraw%3Dtrue)
+* Performance report: [cython-function-level.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/b7dd77278ef7975f6cd55dbc993b461ac19c71d4/results/cython-function-level.html?raw=true)
+* Speedscope profile: [cython-function-level.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2Fb7dd77278ef7975f6cd55dbc993b461ac19c71d4%2Fresults%2Fcython-function-level.json%3Fraw%3Dtrue)
 
 ### cython-gc-no-py-spy
-* Performance report: [cython-gc-no-py-spy.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/5923b65464cf6fb78a6fdc7a119fa088cf6388cb/results/cython-gc-no-py-spy.html?raw=true)
+* Performance report: [cython-gc-no-py-spy.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/b7dd77278ef7975f6cd55dbc993b461ac19c71d4/results/cython-gc-no-py-spy.html?raw=true)
 
 ### cython-gil-nogc
-* Performance report: [cython-gil-nogc.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/5923b65464cf6fb78a6fdc7a119fa088cf6388cb/results/cython-gil-nogc.html?raw=true)
-* Speedscope profile: [cython-gil-nogc.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F5923b65464cf6fb78a6fdc7a119fa088cf6388cb%2Fresults%2Fcython-gil-nogc.json%3Fraw%3Dtrue)
+* Performance report: [cython-gil-nogc.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/b7dd77278ef7975f6cd55dbc993b461ac19c71d4/results/cython-gil-nogc.html?raw=true)
+* Speedscope profile: [cython-gil-nogc.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2Fb7dd77278ef7975f6cd55dbc993b461ac19c71d4%2Fresults%2Fcython-gil-nogc.json%3Fraw%3Dtrue)
 
 ### cython-gil-nonblockig
-* Performance report: [cython-gil-nonblockig.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/5923b65464cf6fb78a6fdc7a119fa088cf6388cb/results/cython-gil-nonblockig.html?raw=true)
-* Speedscope profile: [cython-gil-nonblockig.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F5923b65464cf6fb78a6fdc7a119fa088cf6388cb%2Fresults%2Fcython-gil-nonblockig.json%3Fraw%3Dtrue)
+* Performance report: [cython-gil-nonblockig.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/b7dd77278ef7975f6cd55dbc993b461ac19c71d4/results/cython-gil-nonblockig.html?raw=true)
+* Speedscope profile: [cython-gil-nonblockig.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2Fb7dd77278ef7975f6cd55dbc993b461ac19c71d4%2Fresults%2Fcython-gil-nonblockig.json%3Fraw%3Dtrue)
 
 ### cython-gil-only-function-level
-* Performance report: [cython-gil-only-function-level.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/5923b65464cf6fb78a6fdc7a119fa088cf6388cb/results/cython-gil-only-function-level.html?raw=true)
-* Speedscope profile: [cython-gil-only-function-level.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F5923b65464cf6fb78a6fdc7a119fa088cf6388cb%2Fresults%2Fcython-gil-only-function-level.json%3Fraw%3Dtrue)
+* Performance report: [cython-gil-only-function-level.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/b7dd77278ef7975f6cd55dbc993b461ac19c71d4/results/cython-gil-only-function-level.html?raw=true)
+* Speedscope profile: [cython-gil-only-function-level.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2Fb7dd77278ef7975f6cd55dbc993b461ac19c71d4%2Fresults%2Fcython-gil-only-function-level.json%3Fraw%3Dtrue)
 
 ### cython-gil-only
-* Performance report: [cython-gil-only.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/5923b65464cf6fb78a6fdc7a119fa088cf6388cb/results/cython-gil-only.html?raw=true)
-* Speedscope profile: [cython-gil-only.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F5923b65464cf6fb78a6fdc7a119fa088cf6388cb%2Fresults%2Fcython-gil-only.json%3Fraw%3Dtrue)
+* Performance report: [cython-gil-only.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/b7dd77278ef7975f6cd55dbc993b461ac19c71d4/results/cython-gil-only.html?raw=true)
+* Speedscope profile: [cython-gil-only.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2Fb7dd77278ef7975f6cd55dbc993b461ac19c71d4%2Fresults%2Fcython-gil-only.json%3Fraw%3Dtrue)
 
 ### cython-nogc-no-py-spy
-* Performance report: [cython-nogc-no-py-spy.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/5923b65464cf6fb78a6fdc7a119fa088cf6388cb/results/cython-nogc-no-py-spy.html?raw=true)
+* Performance report: [cython-nogc-no-py-spy.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/b7dd77278ef7975f6cd55dbc993b461ac19c71d4/results/cython-nogc-no-py-spy.html?raw=true)
 
 ### cython-nogc
-* Performance report: [cython-nogc.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/5923b65464cf6fb78a6fdc7a119fa088cf6388cb/results/cython-nogc.html?raw=true)
-* Speedscope profile: [cython-nogc.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F5923b65464cf6fb78a6fdc7a119fa088cf6388cb%2Fresults%2Fcython-nogc.json%3Fraw%3Dtrue)
+* Performance report: [cython-nogc.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/b7dd77278ef7975f6cd55dbc993b461ac19c71d4/results/cython-nogc.html?raw=true)
+* Speedscope profile: [cython-nogc.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2Fb7dd77278ef7975f6cd55dbc993b461ac19c71d4%2Fresults%2Fcython-nogc.json%3Fraw%3Dtrue)
 
 ### cython
-* Performance report: [cython.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/5923b65464cf6fb78a6fdc7a119fa088cf6388cb/results/cython.html?raw=true)
-* Speedscope profile: [cython.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F5923b65464cf6fb78a6fdc7a119fa088cf6388cb%2Fresults%2Fcython.json%3Fraw%3Dtrue)
+* Performance report: [cython.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/b7dd77278ef7975f6cd55dbc993b461ac19c71d4/results/cython.html?raw=true)
+* Speedscope profile: [cython.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2Fb7dd77278ef7975f6cd55dbc993b461ac19c71d4%2Fresults%2Fcython.json%3Fraw%3Dtrue)
+
+### purepy-gc-no-py-spy
+* Performance report: [purepy-gc-no-py-spy.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/b7dd77278ef7975f6cd55dbc993b461ac19c71d4/results/purepy-gc-no-py-spy.html?raw=true)
+
+### purepy-gc
+* Performance report: [purepy-gc.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/b7dd77278ef7975f6cd55dbc993b461ac19c71d4/results/purepy-gc.html?raw=true)
+* Speedscope profile: [purepy-gc.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2Fb7dd77278ef7975f6cd55dbc993b461ac19c71d4%2Fresults%2Fpurepy-gc.json%3Fraw%3Dtrue)
+
+### purepy-nogc-no-py-spy
+* Performance report: [purepy-nogc-no-py-spy.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/b7dd77278ef7975f6cd55dbc993b461ac19c71d4/results/purepy-nogc-no-py-spy.html?raw=true)
+
+### purepy-nogc
+* Performance report: [purepy-nogc.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/b7dd77278ef7975f6cd55dbc993b461ac19c71d4/results/purepy-nogc.html?raw=true)
+* Speedscope profile: [purepy-nogc.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2Fb7dd77278ef7975f6cd55dbc993b461ac19c71d4%2Fresults%2Fpurepy-nogc.json%3Fraw%3Dtrue)
