@@ -2,7 +2,7 @@ import sys
 import time
 import pickle
 
-import coiled
+# import coiled
 import dask
 import dask.utils
 import dask.dataframe
@@ -42,7 +42,7 @@ def print_sizeof_serialized_graph(x) -> float:
 def main():
     df = dask.datasets.timeseries(
         start="2000-01-01",
-        end="2000-06-30",  # 720 ~partitions
+        end="2000-01-30",
         partition_freq="1h",
         freq="60s",
     )
@@ -65,17 +65,18 @@ def main():
 
 
 if __name__ == "__main__":
-    n_workers = 100
-    cluster = coiled.Cluster(
-        software="gjoseph92/profiling",
-        n_workers=n_workers,
-        worker_cpu=1,
-        worker_memory="4 GiB",
-        scheduler_cpu=4,
-        scheduler_memory="8 GiB",
-        shutdown_on_close=True,
-    )
-    client = distributed.Client(cluster)
+    n_workers = 7
+    # cluster = coiled.Cluster(
+    #     software="gjoseph92/profiling",
+    #     n_workers=n_workers,
+    #     worker_cpu=1,
+    #     worker_memory="4 GiB",
+    #     scheduler_cpu=4,
+    #     scheduler_memory="8 GiB",
+    #     shutdown_on_close=True,
+    # )
+    # client = distributed.Client(cluster)
+    client = distributed.Client("tcp://192.168.0.39:8786")
     if not client.run_on_scheduler(lambda: distributed.scheduler.COMPILED):
         print("Scheduler is not compiled!")
         client.shutdown()
@@ -85,29 +86,29 @@ if __name__ == "__main__":
     print(f"Waiting for {n_workers} workers...")
     client.wait_for_workers(n_workers)
 
-    def disable_gc():
-        # https://github.com/benfred/py-spy/issues/389#issuecomment-833903190
-        import gc
+    # def disable_gc():
+    #     # https://github.com/benfred/py-spy/issues/389#issuecomment-833903190
+    #     import gc
 
-        gc.disable()
-        gc.set_threshold(0)
+    #     gc.disable()
+    #     gc.set_threshold(0)
 
-    print("Disabling GC on scheduler")
-    client.run_on_scheduler(disable_gc)
+    # print("Disabling GC on scheduler")
+    # client.run_on_scheduler(disable_gc)
 
     print("Here we go!")
 
     # This is key---otherwise we're uploading ~300MiB of graph to the scheduler
     dask.config.set({"optimization.fuse.active": False})
 
-    # test_name = "cython-nogc-200workers"
+    test_name = "cython-local"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
             f"results/{test_name}.json",
             subprocesses=True,
             idle=True,
-            native=True,
+            # native=True,
         ),
     ):
         main()
