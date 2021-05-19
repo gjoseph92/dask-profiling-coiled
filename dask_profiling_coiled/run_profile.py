@@ -1,4 +1,3 @@
-import sys
 import time
 import pickle
 
@@ -18,23 +17,13 @@ def print_sizeof_serialized_graph(x) -> None:
     optimize_time = time.perf_counter() - start
 
     start = time.perf_counter()
-    packed = dsk.__dask_distributed_pack__(distributed.get_client(), x.__dask_keys__())
-    pack_time = time.perf_counter() - start
-
-    start = time.perf_counter()
-    frames = distributed.protocol.dumps(packed)
-    dumps_time = time.perf_counter() - start
-    dumps = sum(len(f) for f in frames)
-
-    start = time.perf_counter()
-    pickled = len(pickle.dumps(packed))
+    pickled = len(pickle.dumps(dsk))
     pickle_time = time.perf_counter() - start
 
     print(
         f"Graph ({len(dsk)} optimized tasks) is:\n"
-        f"* {dask.utils.format_bytes(dumps)} with distributed-dumps ({len(frames)} frames) - {dumps_time:.1}s\n"
         f"* {dask.utils.format_bytes(pickled)} pickled  - {pickle_time:.1}s\n"
-        f"Optimize: {optimize_time:.1}s, pack: {pack_time:.1}s"
+        f"Optimize: {optimize_time:.1}s"
     )
 
 
@@ -72,11 +61,6 @@ if __name__ == "__main__":
         shutdown_on_close=True,
     )
     client = distributed.Client(cluster)
-    if not client.run_on_scheduler(lambda: distributed.scheduler.COMPILED):
-        print("Scheduler is not compiled!")
-        client.shutdown()
-        client.close()
-        sys.exit(1)
 
     print(f"Waiting for {n_workers} workers...")
     client.wait_for_workers(n_workers)
@@ -101,10 +85,7 @@ if __name__ == "__main__":
 
     print("Here we go!")
 
-    # This is key---otherwise we're uploading ~300MiB of graph to the scheduler
-    dask.config.set({"optimization.fuse.active": False})
-
-    test_name = "cython-shuffle-gc"
+    test_name = "2.30-shuffle-gc"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
