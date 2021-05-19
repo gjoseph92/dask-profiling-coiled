@@ -1,7 +1,9 @@
-# disable dask's profiling
 distributed:
   worker:
+    # disable dask's profiling
     profile:
       interval: 2h
       cycle: 10h
       low-level: false
+  admin:
+    event-loop: uvloop
