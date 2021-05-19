@@ -28,5 +28,6 @@ dependencies:
       # - git+https://github.com/gjoseph92/scheduler-profilers.git  # TODO this conflicts with --install-option for distributed, using postBuild instead
       # - git+https://github.com/gjoseph92/dask-noop.git
 variables:
-  DASK_DISTRIBUTED__WORKER__PROFILE__INTERVAL: 2h
-  DASK_DISTRIBUTED__WORKER__PROFILE__CYCLE: 10h
+  DASK_CONFIG: dask.yaml
+  # DASK_DISTRIBUTED__WORKER__PROFILE__INTERVAL: 2h
+  # DASK_DISTRIBUTED__WORKER__PROFILE__CYCLE: 10h

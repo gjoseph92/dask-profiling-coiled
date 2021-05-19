@@ -1,0 +1,7 @@
+# disable dask's profiling
+distributed:
+  worker:
+    profile:
+      interval: 2h
+      cycle: 10h
+      low-level: false
