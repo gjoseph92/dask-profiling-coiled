@@ -68,7 +68,7 @@ showing the impact of garbage collection.
 `cython-shuffle-gc-nopyspy` vs `2.30-shuffle-gc-nopyspy` (and `cython-shuffle-nogc-nopyspy` vs `2.30-shuffle-nogc-nopyspy`)
 are the canonical "before-after" comparison showing improvements in scheduler performance since version 2.30.0.
 
-Additionally, `cython-shuffle-no-spy-spy` and `cython-shuffle-nogc-no-spy-spy` are just performance reports with GC on and off,
+Additionally, `cython-shuffle-gc-nopyspy` and `cython-shuffle-nogc-nopyspy` are just performance reports with GC on and off,
 to get a comparison of GC impact without py-spy slowing things down.
 
 ## Results
