@@ -12,8 +12,8 @@ import distributed.protocol
 from scheduler_profilers import pyspy_on_scheduler
 
 
-def print_sizeof_serialized_graph(x) -> float:
-    start = total_start = time.perf_counter()
+def print_sizeof_serialized_graph(x) -> None:
+    start = time.perf_counter()
     dsk = dask.base.collections_to_dsk([x], optimize_graph=True)
     optimize_time = time.perf_counter() - start
 
@@ -36,7 +36,6 @@ def print_sizeof_serialized_graph(x) -> float:
         f"* {dask.utils.format_bytes(pickled)} pickled  - {pickle_time:.1}s\n"
         f"Optimize: {optimize_time:.1}s, pack: {pack_time:.1}s"
     )
-    return time.perf_counter() - total_start
 
 
 def main():
@@ -50,18 +49,15 @@ def main():
     distributed.wait(df)
     print("DataFrame persisted")
 
+    shuffled = df.shuffle("id", shuffle="tasks")
+
+    print_sizeof_serialized_graph(shuffled)
+
     start = time.perf_counter()
-    reindexed = df.set_index("id", compute=False)
-    print(f"Reindexed generated in {time.perf_counter() - start:.1f} sec")
-
-    extra_time = print_sizeof_serialized_graph(reindexed)
-
-    df2 = reindexed.persist()
+    df2 = shuffled.persist()
     distributed.wait(df2)
     elapsed = time.perf_counter() - start
-    print(
-        f"{elapsed:.1f} sec total, {elapsed - extra_time:.1f} sec without diagnostics"
-    )
+    print(f"{elapsed:.1f} sec")
 
 
 if __name__ == "__main__":
