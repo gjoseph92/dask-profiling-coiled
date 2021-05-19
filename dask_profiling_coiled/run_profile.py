@@ -9,7 +9,7 @@ import dask.dataframe
 import distributed
 import distributed.protocol
 
-# from scheduler_profilers import pyspy_on_scheduler
+from scheduler_profilers import pyspy_on_scheduler
 
 
 def print_sizeof_serialized_graph(x) -> None:
@@ -81,38 +81,38 @@ if __name__ == "__main__":
     print(f"Waiting for {n_workers} workers...")
     client.wait_for_workers(n_workers)
 
-    # def disable_gc():
-    #     # https://github.com/benfred/py-spy/issues/389#issuecomment-833903190
-    #     import gc
-
-    #     gc.disable()
-    #     gc.set_threshold(0)
-
-    # print("Disabling GC on scheduler")
-    # client.run_on_scheduler(disable_gc)
-
-    def enable_gc_debug():
+    def disable_gc():
+        # https://github.com/benfred/py-spy/issues/389#issuecomment-833903190
         import gc
 
-        gc.set_debug(gc.DEBUG_STATS | gc.DEBUG_COLLECTABLE | gc.DEBUG_UNCOLLECTABLE)
+        gc.disable()
+        gc.set_threshold(0)
 
-    print("Enabling GC debug logging on scheduler")
-    client.run_on_scheduler(enable_gc_debug)
+    print("Disabling GC on scheduler")
+    client.run_on_scheduler(disable_gc)
+
+    # def enable_gc_debug():
+    #     import gc
+
+    #     gc.set_debug(gc.DEBUG_STATS | gc.DEBUG_COLLECTABLE | gc.DEBUG_UNCOLLECTABLE)
+
+    # print("Enabling GC debug logging on scheduler")
+    # client.run_on_scheduler(enable_gc_debug)
 
     print("Here we go!")
 
     # This is key---otherwise we're uploading ~300MiB of graph to the scheduler
     dask.config.set({"optimization.fuse.active": False})
 
-    test_name = "cython-shuffle-uvloop-gc-debug-noprofiling-ecs-prod-nopyspy"
+    test_name = "cython-shuffle-nogc"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
-        # pyspy_on_scheduler(
-        #     f"results/{test_name}.json",
-        #     subprocesses=True,
-        #     idle=True,
-        #     native=True,
-        # ),
+        pyspy_on_scheduler(
+            f"results/{test_name}.json",
+            subprocesses=True,
+            idle=True,
+            native=True,
+        ),
     ):
         main()
 

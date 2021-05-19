@@ -18,7 +18,7 @@ dependencies:
   - numpy=1.20.2
   - pandas=1.2.4
   - xarray=0.18.0
-  - coiled=0.0.39.1
+  - coiled=0.0.40
   - flake8=3.9.1
   - black=21.5b0
   - pip:
@@ -27,5 +27,3 @@ dependencies:
       - git+https://github.com/dask/dask.git@main
       # - git+https://github.com/gjoseph92/scheduler-profilers.git  # TODO this conflicts with --install-option for distributed, using postBuild instead
       # - git+https://github.com/gjoseph92/dask-noop.git
-variables:
-  DASK_CONFIG: dask.yaml
