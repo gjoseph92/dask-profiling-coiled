@@ -8,7 +8,7 @@ import dask.dataframe
 import distributed
 import distributed.protocol
 
-from scheduler_profilers import pyspy_on_scheduler
+# from scheduler_profilers import pyspy_on_scheduler
 
 
 def print_sizeof_serialized_graph(x) -> None:
@@ -85,15 +85,15 @@ if __name__ == "__main__":
 
     print("Here we go!")
 
-    test_name = "2.30-shuffle-nogc"
+    test_name = "2.30-shuffle-nogc-nopyspy"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
-        pyspy_on_scheduler(
-            f"results/{test_name}.json",
-            subprocesses=True,
-            idle=True,
-            native=True,
-        ),
+        # pyspy_on_scheduler(
+        #     f"results/{test_name}.json",
+        #     subprocesses=True,
+        #     idle=True,
+        #     native=True,
+        # ),
     ):
         main()
 
