@@ -91,20 +91,20 @@ if __name__ == "__main__":
     # print("Disabling GC on scheduler")
     # client.run_on_scheduler(disable_gc)
 
-    # def enable_gc_debug():
-    #     import gc
+    def enable_gc_debug():
+        import gc
 
-    #     gc.set_debug(gc.DEBUG_STATS | gc.DEBUG_COLLECTABLE | gc.DEBUG_UNCOLLECTABLE)
+        gc.set_debug(gc.DEBUG_STATS | gc.DEBUG_COLLECTABLE | gc.DEBUG_UNCOLLECTABLE)
 
-    # print("Enabling GC debug logging on scheduler")
-    # client.run_on_scheduler(enable_gc_debug)
+    print("Enabling GC debug logging on scheduler")
+    client.run_on_scheduler(enable_gc_debug)
 
     print("Here we go!")
 
     # This is key---otherwise we're uploading ~300MiB of graph to the scheduler
     dask.config.set({"optimization.fuse.active": False})
 
-    test_name = "cython-shuffle-gc-noprofiling-env"
+    test_name = "cython-shuffle-gc-debug-noprofiling"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
