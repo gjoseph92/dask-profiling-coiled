@@ -9,7 +9,7 @@ import dask.dataframe
 import distributed
 import distributed.protocol
 
-from scheduler_profilers import pyspy_on_scheduler
+# from scheduler_profilers import pyspy_on_scheduler
 
 
 def print_sizeof_serialized_graph(x) -> None:
@@ -104,15 +104,15 @@ if __name__ == "__main__":
     # This is key---otherwise we're uploading ~300MiB of graph to the scheduler
     dask.config.set({"optimization.fuse.active": False})
 
-    test_name = "cython-shuffle-gc-debug-noprofiling"
+    test_name = "cython-shuffle-gc-debug-noprofiling-ecs-prod-nopyspy"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
-        pyspy_on_scheduler(
-            f"results/{test_name}.json",
-            subprocesses=True,
-            idle=True,
-            native=True,
-        ),
+        # pyspy_on_scheduler(
+        #     f"results/{test_name}.json",
+        #     subprocesses=True,
+        #     idle=True,
+        #     native=True,
+        # ),
     ):
         main()
 
