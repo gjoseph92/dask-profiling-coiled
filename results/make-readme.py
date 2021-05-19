@@ -6,6 +6,7 @@ python results/make-readme.py > results/README.md
 import itertools
 from pathlib import Path
 import subprocess
+import sys
 from urllib.parse import quote_plus
 
 readme = """\
@@ -27,11 +28,6 @@ Most of the variation is from toggling the py-spy `--gil` and `--function` flags
 It's also nice for dropping the `select` frames, to filter down to just the frames we're doing work.
 
 Then `gc` vs `nogc` is garbage collection enabled vs disabled on the scheduler.
-
-`cython` and `cython-nogc` are probably the most interesting / simplest to compare.
-
-Additionally, `cython-no-spy-spy` and `cython-nogc-no-spy-spy` are just performance reports with GC on and off,
-to get a comparison without py-spy slowing things down.
 
 Quick reference for what the py-spy options do:
 ```shell
@@ -62,6 +58,19 @@ ARGS:
     <python_program>...    commandline of a python program to run
 ```
 
+## What to look at
+
+`cython-shuffle-nogc` is the most canonical profile of what we're spending time on right now.
+
+`cython-shuffle-gc` and `cython-shuffle-nogc` are probably the most interesting to compare,
+showing the impact of garbage collection.
+
+`cython-shuffle-gc-nopyspy` vs `2.30-shuffle-gc-nopyspy` (and `cython-shuffle-nogc-nopyspy` vs `2.30-shuffle-nogc-nopyspy`)
+are the canonical "before-after" comparison showing improvements in scheduler performance since version 2.30.0.
+
+Additionally, `cython-shuffle-no-spy-spy` and `cython-shuffle-nogc-no-spy-spy` are just performance reports with GC on and off,
+to get a comparison of GC impact without py-spy slowing things down.
+
 ## Results
 """  # noqa: E501
 
@@ -81,9 +90,10 @@ def speedscope_link(path: Path):
 dir = Path(__file__).parent
 htmls = dir.glob("*.html")
 jsons = dir.glob("*.json")
+txts = dir.glob("*.txt")
 parts = []
 for name, items in itertools.groupby(
-    sorted(itertools.chain(htmls, jsons)), key=lambda p: p.stem
+    sorted(itertools.chain(htmls, jsons, txts)), key=lambda p: p.stem
 ):
     parts.append(f"\n### {name}")
     for item in items:
@@ -93,7 +103,9 @@ for name, items in itertools.groupby(
             )
         elif item.suffix == ".html":
             parts.append(f"* Performance report: [{item.name}]({githack_link(item)})")
+        elif item.suffix == ".txt":
+            parts.append(f"* Logs: [{item.name}]({githack_link(item)})")
         else:
-            print(f"What is {item} doing here?")
+            print(f"What is {item} doing here?", file=sys.stderr)
 
 print(readme, *parts, sep="\n")
