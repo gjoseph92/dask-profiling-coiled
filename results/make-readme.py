@@ -74,17 +74,13 @@ to get a comparison of GC impact without py-spy slowing things down.
 ## Results
 """  # noqa: E501
 
-commit = subprocess.run(
-    ["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=True
-).stdout.strip()
 
-
-def githack_link(path: Path):
+def githack_link(path: Path, commit: str):
     return f"https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/{commit}/results/{path.name}?raw=true"
 
 
-def speedscope_link(path: Path):
-    return f"https://www.speedscope.app/#profileURL={quote_plus(githack_link(path))}"
+def speedscope_link(path: Path, commit: str):
+    return f"https://www.speedscope.app/#profileURL={quote_plus(githack_link(path, commit))}"
 
 
 dir = Path(__file__).parent
@@ -97,14 +93,25 @@ for name, items in itertools.groupby(
 ):
     parts.append(f"\n### {name}")
     for item in items:
+        # Get last commit that touched this file
+        # https://stackoverflow.com/a/32774290
+        commit = subprocess.run(
+            ["git", "rev-list", "-1", "HEAD", str(item)],
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout.strip()
+
         if item.suffix == ".json":
             parts.append(
-                f"* Speedscope profile: [{item.name}]({speedscope_link(item)})"
+                f"* Speedscope profile: [{item.name}]({speedscope_link(item, commit)})"
             )
         elif item.suffix == ".html":
-            parts.append(f"* Performance report: [{item.name}]({githack_link(item)})")
+            parts.append(
+                f"* Performance report: [{item.name}]({githack_link(item, commit)})"
+            )
         elif item.suffix == ".txt":
-            parts.append(f"* Logs: [{item.name}]({githack_link(item)})")
+            parts.append(f"* Logs: [{item.name}]({githack_link(item, commit)})")
         else:
             print(f"What is {item} doing here?", file=sys.stderr)
 
