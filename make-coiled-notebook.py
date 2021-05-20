@@ -6,7 +6,7 @@ if __name__ == "__main__":
     coiled.create_job_configuration(
         name="profiling",
         software="gjoseph92/profiling",
-        cpu=1,
+        cpu=2,
         memory="4 GiB",
         command=[
             "/bin/bash",
