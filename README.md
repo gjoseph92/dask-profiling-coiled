@@ -6,8 +6,6 @@ The goal is to profile the scheduler running a scheduler-bound workload on a lar
 
 ## Reproducing
 
-**NOTE:** currently (2021-05-14), this can only run on Coiled's staging environment. Within a week or two, this should work for any Coiled user.
-
 ```shell
 git clone git@github.com:gjoseph92/dask-profiling-coiled.git
 cd dask-profiling-coiled
@@ -18,7 +16,7 @@ conda activate profiling
 pip install git+https://github.com/gjoseph92/scheduler-profilers.git
 ```
 
-On <https://cloud.coiled.io/>, go to the Account page, and change your backend to AWS VMs (EC2).
+**On <https://cloud.coiled.io/>, go to the Account page, and change your backend to AWS VMs (EC2).**
 
 To run:
 
