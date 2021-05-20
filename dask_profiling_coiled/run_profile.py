@@ -30,7 +30,7 @@ def print_sizeof_serialized_graph(x) -> None:
 def main():
     df = dask.datasets.timeseries(
         start="2000-01-01",
-        end="2000-06-30",  # 720 ~partitions
+        end="2000-06-30",  # 4,344 partitions
         partition_freq="1h",
         freq="60s",
     )
