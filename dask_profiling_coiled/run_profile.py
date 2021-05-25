@@ -104,7 +104,7 @@ if __name__ == "__main__":
     # This is key---otherwise we're uploading ~300MiB of graph to the scheduler
     dask.config.set({"optimization.fuse.active": False})
 
-    test_name = "cython-shuffle-distributed4847"
+    test_name = "cython-shuffle-distributed4847-2"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
