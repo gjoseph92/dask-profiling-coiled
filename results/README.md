@@ -106,6 +106,14 @@ to get a comparison of GC impact without py-spy slowing things down.
 * Performance report: [cython-nogc.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/f08c91870ecb5b2c9621ec1145499eaae16e26e5/results/cython-nogc.html?raw=true)
 * Speedscope profile: [cython-nogc.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2Ff08c91870ecb5b2c9621ec1145499eaae16e26e5%2Fresults%2Fcython-nogc.json%3Fraw%3Dtrue)
 
+### cython-shuffle-distributed4847-2
+* Performance report: [cython-shuffle-distributed4847-2.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/0695c0ce92887ce9a552b0e71c62c9b9582731b1/results/cython-shuffle-distributed4847-2.html?raw=true)
+* Speedscope profile: [cython-shuffle-distributed4847-2.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F0695c0ce92887ce9a552b0e71c62c9b9582731b1%2Fresults%2Fcython-shuffle-distributed4847-2.json%3Fraw%3Dtrue)
+
+### cython-shuffle-distributed4847
+* Performance report: [cython-shuffle-distributed4847.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/ec9099b731352937aaa7779e90c19bd5702125f0/results/cython-shuffle-distributed4847.html?raw=true)
+* Speedscope profile: [cython-shuffle-distributed4847.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2Fec9099b731352937aaa7779e90c19bd5702125f0%2Fresults%2Fcython-shuffle-distributed4847.json%3Fraw%3Dtrue)
+
 ### cython-shuffle-gc-debug-noprofiling-ecs-prod-nopyspy
 * Logs: [cython-shuffle-gc-debug-noprofiling-ecs-prod-nopyspy.txt](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/61fc875173a5b2f9195346f2a523cb1d876c48ad/results/cython-shuffle-gc-debug-noprofiling-ecs-prod-nopyspy.txt?raw=true)
 
