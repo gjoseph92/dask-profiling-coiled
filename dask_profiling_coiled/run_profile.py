@@ -61,7 +61,7 @@ def main():
 
 
 if __name__ == "__main__":
-    n_workers = 100
+    n_workers = 200
     cluster = coiled.Cluster(
         software="gjoseph92/profiling",
         n_workers=n_workers,
@@ -104,7 +104,7 @@ if __name__ == "__main__":
     # This is key---otherwise we're uploading ~300MiB of graph to the scheduler
     dask.config.set({"optimization.fuse.active": False})
 
-    test_name = "cython-shuffle-distributed4847-2"
+    test_name = "cython-shuffle-gc-200worker"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
