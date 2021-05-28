@@ -63,6 +63,7 @@ def main():
 if __name__ == "__main__":
     n_workers = 200
     cluster = coiled.Cluster(
+        name="gjoseph92-ccb94364-7",
         software="gjoseph92/profiling",
         n_workers=n_workers,
         worker_cpu=1,
@@ -81,15 +82,15 @@ if __name__ == "__main__":
     print(f"Waiting for {n_workers} workers...")
     client.wait_for_workers(n_workers)
 
-    # def disable_gc():
-    #     # https://github.com/benfred/py-spy/issues/389#issuecomment-833903190
-    #     import gc
+    def disable_gc():
+        # https://github.com/benfred/py-spy/issues/389#issuecomment-833903190
+        import gc
 
-    #     gc.disable()
-    #     gc.set_threshold(0)
+        gc.disable()
+        gc.set_threshold(0)
 
-    # print("Disabling GC on scheduler")
-    # client.run_on_scheduler(disable_gc)
+    print("Disabling GC on scheduler")
+    client.run_on_scheduler(disable_gc)
 
     # def enable_gc_debug():
     #     import gc
@@ -104,7 +105,7 @@ if __name__ == "__main__":
     # This is key---otherwise we're uploading ~300MiB of graph to the scheduler
     dask.config.set({"optimization.fuse.active": False})
 
-    test_name = "cython-shuffle-gc-200worker"
+    test_name = "cython-shuffle-nogc-200worker"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
