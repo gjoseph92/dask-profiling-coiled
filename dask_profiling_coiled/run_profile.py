@@ -62,7 +62,7 @@ def main():
 
 
 if __name__ == "__main__":
-    n_workers = 300
+    n_workers = 100
     cluster = coiled.Cluster(
         software="gjoseph92/profiling",
         n_workers=1,
@@ -71,7 +71,7 @@ if __name__ == "__main__":
         scheduler_cpu=4,
         scheduler_memory="8 GiB",
         shutdown_on_close=True,
-        scheduler_options={"idle_timeout": "1 hour"},
+        scheduler_options={"idle_timeout": "1 hour", "dashboard": False},
     )
     client = distributed.Client(cluster)
     if not client.run_on_scheduler(lambda: distributed.scheduler.COMPILED):
@@ -115,7 +115,7 @@ if __name__ == "__main__":
         }
     )
 
-    test_name = "cython-shuffle-gc-300worker"
+    test_name = "cython-shuffle-gc-nodashboard"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
