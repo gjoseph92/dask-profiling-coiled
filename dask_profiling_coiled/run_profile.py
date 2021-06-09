@@ -120,7 +120,7 @@ if __name__ == "__main__":
         }
     )
 
-    test_name = "cython-shuffle-nogc-20ms-batched-send"
+    test_name = "cython-shuffle-nogc-20ms-batched-send-2"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
