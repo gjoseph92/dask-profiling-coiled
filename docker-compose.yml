@@ -1,0 +1,38 @@
+services:
+  scheduler:
+    build: .
+    command: dask-scheduler --protocol ucx
+    ports:
+      - "8786:8786"
+      - "8787:8787"
+    env_file: .env
+    security_opt:
+      # Remove for docker >= 20.10.6; needed for py-spy
+      # - seccomp:./moby-20.10.6-seccomp.json
+
+  worker-1:
+    build: .
+    command: dask-worker ucx://scheduler:8786
+    env_file: .env
+    depends_on:
+      - scheduler
+  worker-2:
+    build: .
+    command: dask-worker ucx://scheduler:8786
+    env_file: .env
+    depends_on:
+      - scheduler
+
+  client:
+    # For interactive use:
+    # docker attach dask-profiling-coiled_client_1
+    build: .
+    command: python -i -c "import dask; import dask.array as da; import distributed; client = distributed.Client('ucx://scheduler:8786')"
+    stdin_open: true
+    tty: true
+    logging:
+      driver: "none"
+    env_file: .env
+    depends_on:
+      - worker-1
+      - worker-2
