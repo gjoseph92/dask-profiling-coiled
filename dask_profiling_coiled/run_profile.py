@@ -115,7 +115,7 @@ if __name__ == "__main__":
         }
     )
 
-    test_name = "cython-shuffle-gc-2021.05.0"
+    test_name = "cython-shuffle-gc-2021.05.0-2"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
