@@ -73,7 +73,7 @@ if __name__ == "__main__":
         shutdown_on_close=True,
         scheduler_options={"idle_timeout": "1 hour"},
         environ={
-            "DASK_DISTRIBUTED__WORKER__BATCHED_SEND_INTERVAL": "60ms"
+            "DASK_DISTRIBUTED__WORKER__BATCHED_SEND_INTERVAL": "120ms"
         }
     )
     client = distributed.Client(cluster)
@@ -123,7 +123,7 @@ if __name__ == "__main__":
         }
     )
 
-    test_name = "cython-shuffle-nogc-60ms-batched-send"
+    test_name = "cython-shuffle-nogc-120ms-batched-send"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
