@@ -39,7 +39,8 @@ WORKDIR /home/root
 # # Uncomment to test using security locally
 # ADD generate_security.py /home/root/generate_security.py
 # RUN python generate_security.py > security.txt && rm generate_security.py
-# ENV DASK_DISTRIBUTED__COMM__TLS__CLIENT__CERT=security.txt \
+# ENV DASK_DISTRIBUTED__COMM__TLS__CA_FILE=security.txt \
+#     DASK_DISTRIBUTED__COMM__TLS__CLIENT__CERT=security.txt \
 #     DASK_DISTRIBUTED__COMM__TLS__CLIENT__KEY=security.txt \
 #     DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__CERT=security.txt \
 #     DASK_DISTRIBUTED__COMM__TLS__SCHEDULER__KEY=security.txt \
