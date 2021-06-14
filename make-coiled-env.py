@@ -5,13 +5,7 @@ import coiled
 if __name__ == "__main__":
     coiled.create_software_environment(
         name="gjoseph92/profiling",
-        container="jabriel/ucx:latest",
-        conda_env_name="base",
-        conda="environment.yml",
-        # Install py-spy separately so it doesn't conflict with Cythonized distributed
-        post_build=[
-            "python3 -m pip install git+https://github.com/gjoseph92/scheduler-profilers.git@2691c0fc79e4f4fc9e90c7cfcbdf153f45107d36"  # noqa: E501
-        ],
+        container="jabriel/ucx:full",
     )
 
     coiled.create_job_configuration(

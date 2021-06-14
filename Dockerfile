@@ -29,12 +29,13 @@ FROM $BASE_IMAGE
 COPY --from=build /opt/conda /opt/conda
 WORKDIR /home/root
 
-# # Uncomment to install environment for local testing (otherwise we let Coiled do this for us)
-# COPY environment.yml /home/root/environment.yml
-# RUN sed "s/name: profiling/name: base/" environment.yml
-# RUN mamba env update -n base -f environment.yml && \
-#     mamba clean --all --yes && \
-#     rm environment.yml
+# Uncomment to install environment for local testing (otherwise we let Coiled do this for us)
+COPY environment.yml /home/root/environment.yml
+RUN sed "s/name: profiling/name: base/" environment.yml
+RUN mamba env update -n base -f environment.yml && \
+    mamba clean --all --yes && \
+    rm environment.yml
+RUN python3 -m pip install git+https://github.com/gjoseph92/scheduler-profilers.git@2691c0fc79e4f4fc9e90c7cfcbdf153f45107d36
 
 # # Uncomment to test using security locally
 # ADD generate_security.py /home/root/generate_security.py
