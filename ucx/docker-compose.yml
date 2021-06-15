@@ -1,0 +1,44 @@
+services:
+  scheduler:
+    image: jabriel/ucx:full
+    command: dask-scheduler --protocol ucx
+    ports:
+      - "8786:8786"
+      - "8787:8787"
+    security_opt:
+      # Remove for docker >= 20.10.6; needed for py-spy
+      # NOTE: only works with `docker-compose`, not `docker compose`
+      - seccomp:./moby-20.10.6-seccomp.json
+
+  worker:
+    image: jabriel/ucx:full
+    command: dask-worker ucx://scheduler:8786 --nthreads=1 --nprocs=1 --memory-limit="4 GiB"
+    depends_on:
+      - scheduler
+
+  # client:
+  #   # For interactive use:
+  #   # $ docker attach ucx_client_1
+  #   # >>> da.random.random(1000000, chunks=1000).mean().compute()
+  #   image: jabriel/ucx:full
+  #   command: ipython -i -c "import dask; import dask.array as da; import distributed; client = distributed.Client('ucx://scheduler:8786')"
+  #   security_opt:
+  #     # Remove for docker >= 20.10.6; needed for py-spy
+  #     # NOTE: only works with `docker-compose`, not `docker compose`
+  #     - seccomp:./moby-20.10.6-seccomp.json
+  #   volumes:
+  #     - "..:/root"
+  #   stdin_open: true
+  #   tty: true
+  #   logging:
+  #     driver: "none"
+  #   depends_on:
+  #     - worker
+
+  profile:
+    image: jabriel/ucx:full
+    volumes:
+      - "..:/root"
+    command: python dask_profiling_coiled/run_profile.py
+    depends_on:
+      - scheduler

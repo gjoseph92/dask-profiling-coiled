@@ -22,7 +22,7 @@ dependencies:
   - flake8=3.9.1
   - black=21.5b0
   - pip:
-      - git+https://github.com/gjoseph92/distributed.git@53415e5251234db542ba202cd84f6fe0d778e673 --install-option="--with-cython=profile"
+      - git+https://github.com/dask/distributed.git@main --install-option="--with-cython=profile"
       - git+https://github.com/dask/dask.git@main
       # - git+https://github.com/gjoseph92/scheduler-profilers.git  # TODO this conflicts with --install-option for distributed, using postBuild instead
       # - git+https://github.com/gjoseph92/dask-noop.git

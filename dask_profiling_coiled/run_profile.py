@@ -1,9 +1,7 @@
-import asyncio
 import sys
 import time
 import pickle
 
-import coiled
 import dask
 import dask.utils
 import dask.dataframe
@@ -62,37 +60,15 @@ def main():
 
 
 if __name__ == "__main__":
-    n_workers = 100
-    cluster = coiled.Cluster(
-        software="gjoseph92/profiling",
-        n_workers=1,
-        worker_cpu=1,
-        worker_memory="4 GiB",
-        scheduler_cpu=4,
-        scheduler_memory="8 GiB",
-        shutdown_on_close=True,
-        scheduler_options={"idle_timeout": "1 hour"},
-        environ={
-            "DASK_DISTRIBUTED__WORKER__BATCHED_SEND_INTERVAL": "500ms"
-        }
-    )
-    client = distributed.Client(cluster)
+    n_workers = 1
+    client = distributed.Client("ucx://scheduler:8786")
     if not client.run_on_scheduler(lambda: distributed.scheduler.COMPILED):
         print("Scheduler is not compiled!")
         client.shutdown()
         client.close()
         sys.exit(1)
 
-    client.wait_for_workers(1)
-    print(
-        client.run(lambda: dask.config.get("distributed.worker.batched-send-interval"))
-    )
-
     print(f"Waiting for {n_workers} workers...")
-    try:
-        cluster.scale(n_workers)
-    except asyncio.TimeoutError:
-        pass
     client.wait_for_workers(n_workers)
 
     # def disable_gc():
@@ -123,14 +99,16 @@ if __name__ == "__main__":
         }
     )
 
-    test_name = "cython-shuffle-gc-500ms-batched-send"
+    test_name = "cython-shuffle-gc-ucx"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
             f"results/{test_name}.json",
             subprocesses=True,
             idle=True,
-            native=True,
+            # TODO: `native=True` crashes py-spy (exit code -2) when running with UCX.
+            # Would have been nice to get lower-level traces within UCX, too bad.
+            # native=True,
         ),
     ):
         main()
