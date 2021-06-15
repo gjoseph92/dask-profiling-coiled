@@ -11,39 +11,38 @@ services:
       # NOTE: only works with `docker-compose`, not `docker compose`
       - seccomp:./moby-20.10.6-seccomp.json
 
-  worker-1:
-    image: jabriel/ucx:full
-    command: dask-worker ucx://scheduler:8786
-    env_file: .env
-    depends_on:
-      - scheduler
-  worker-2:
+  worker:
     image: jabriel/ucx:full
     command: dask-worker ucx://scheduler:8786
     env_file: .env
     depends_on:
       - scheduler
 
-  client:
-    # For interactive use:
-    # $ docker attach dask-profiling-coiled_client_1
-    # >>> da.random.random(1000000, chunks=1000).mean().compute()
-    image: jabriel/ucx:full
-    command: python -i -c "import dask; import dask.array as da; import distributed; client = distributed.Client('ucx://scheduler:8786')"
-    stdin_open: true
-    tty: true
-    logging:
-      driver: "none"
-    env_file: .env
-    depends_on:
-      - worker-1
-      - worker-2
+  # client:
+  #   # For interactive use:
+  #   # $ docker attach ucx_client_1
+  #   # >>> da.random.random(1000000, chunks=1000).mean().compute()
+  #   image: jabriel/ucx:full
+  #   command: ipython -i -c "import dask; import dask.array as da; import distributed; client = distributed.Client('ucx://scheduler:8786')"
+  #   security_opt:
+  #     # Remove for docker >= 20.10.6; needed for py-spy
+  #     # NOTE: only works with `docker-compose`, not `docker compose`
+  #     - seccomp:./moby-20.10.6-seccomp.json
+  #   volumes:
+  #     - "..:/root"
+  #   stdin_open: true
+  #   tty: true
+  #   logging:
+  #     driver: "none"
+  #   env_file: .env
+  #   depends_on:
+  #     - worker
 
   profile:
     image: jabriel/ucx:full
     volumes:
-      - "..:/root/dask-profiling-coiled"
-    command: /bin/bash -c "cd ~/dask-profiling-coiled && python dask_profiling_coiled/run_profile.py"
+      - "..:/root"
+    command: python dask_profiling_coiled/run_profile.py
+    env_file: .env
     depends_on:
-      - worker-1
-      - worker-2
+      - scheduler

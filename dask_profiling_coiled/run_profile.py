@@ -60,7 +60,7 @@ def main():
 
 
 if __name__ == "__main__":
-    n_workers = 2
+    n_workers = 1
     client = distributed.Client("ucx://scheduler:8786")
     if not client.run_on_scheduler(lambda: distributed.scheduler.COMPILED):
         print("Scheduler is not compiled!")
@@ -106,7 +106,9 @@ if __name__ == "__main__":
             f"results/{test_name}.json",
             subprocesses=True,
             idle=True,
-            native=True,
+            # TODO: `native=True` crashes py-spy (exit code -2) when running with UCX.
+            # Would have been nice to get lower-level traces within UCX, too bad.
+            # native=True,
         ),
     ):
         main()
