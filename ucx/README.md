@@ -6,7 +6,7 @@ NOTE: UCX isn't currently working on Coiled.
 
 ```bash
 $ cd ucx
-$ docker-compose up --scale worker=<N workers> --abort-on-container-exit
+$ docker-compose up --abort-on-container-exit --scale worker=<N workers>
 ```
 
 This will spin up the workers, run the profiling script, save the profile, and exit. Make sure to update the `n_workers` and `test_name` lines in the `run_profile.py` script first. (If just testing on a laptop, also make the `dask.datasets.timeseries` smaller with something like `end="2000-01-05"`, otherwise it'll take forever to run.) Profile results will be saved to the host machine.
