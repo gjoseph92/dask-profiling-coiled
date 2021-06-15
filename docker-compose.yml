@@ -7,9 +7,10 @@ services:
       - "8786:8786"
       - "8787:8787"
     env_file: .env
-    # security_opt:
+    security_opt:
       # Remove for docker >= 20.10.6; needed for py-spy
-      # - seccomp:./moby-20.10.6-seccomp.json
+      # NOTE: only works with `docker-compose`, not `docker compose`
+      - seccomp:./moby-20.10.6-seccomp.json
 
   worker-1:
     build: .
