@@ -38,3 +38,12 @@ services:
     depends_on:
       - worker-1
       - worker-2
+
+  profile:
+    image: jabriel/ucx:full
+    volumes:
+      - "..:/root/dask-profiling-coiled"
+    command: /bin/bash -c "cd ~/dask-profiling-coiled && python dask_profiling_coiled/run_profile.py"
+    depends_on:
+      - worker-1
+      - worker-2
