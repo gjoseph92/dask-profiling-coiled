@@ -29,12 +29,22 @@ FROM $BASE_IMAGE
 COPY --from=build /opt/conda /opt/conda
 WORKDIR /home/root
 
-# Uncomment to install environment for local testing (otherwise we let Coiled do this for us)
+# Install environment.yml
+# We'd like to let Coiled do this for us, but it's not currently possible with micromamba
+# because of https://github.com/coiled/cloud/issues/2910
 COPY environment.yml /home/root/environment.yml
 RUN sed "s/name: profiling/name: base/" environment.yml
+# Workaround for https://github.com/mamba-org/mamba/issues/1005:
+# separate out the `pip` section into its own `requirements.txt` file
+RUN csplit --suppress-matched environment.yml '/- pip:/' '{*}' && \
+    mv xx00 environment.yml && \
+    sed "s/ - //" xx01 > requirements.txt && \
+    rm xx01
 RUN mamba env update -n base -f environment.yml && \
     mamba clean --all --yes && \
     rm environment.yml
+RUN python3 -m pip install -r requirements.txt && \
+    rm requirements.txt
 RUN python3 -m pip install git+https://github.com/gjoseph92/scheduler-profilers.git@2691c0fc79e4f4fc9e90c7cfcbdf153f45107d36
 
 # # Uncomment to test using security locally
