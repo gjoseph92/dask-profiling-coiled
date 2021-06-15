@@ -47,6 +47,9 @@ RUN python3 -m pip install -r requirements.txt && \
     rm requirements.txt
 RUN python3 -m pip install git+https://github.com/gjoseph92/scheduler-profilers.git@2691c0fc79e4f4fc9e90c7cfcbdf153f45107d36
 
+ENV UCX_TCP_TX_SEG_SIZE=8M \
+    UCX_TCP_RX_SEG_SIZE=8M
+
 # # Uncomment to test using security locally
 # ADD ucx/generate_security.py /root/generate_security.py
 # RUN python generate_security.py > security.txt && rm generate_security.py
