@@ -12,7 +12,7 @@ services:
 
   worker:
     image: jabriel/ucx:full
-    command: dask-worker ucx://scheduler:8786
+    command: dask-worker ucx://scheduler:8786 --nthreads=1 --nprocs=1 --memory-limit="4 GiB"
     depends_on:
       - scheduler
 
