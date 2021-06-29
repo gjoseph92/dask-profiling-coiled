@@ -142,6 +142,10 @@ to get a comparison of GC impact without py-spy slowing things down.
 * Performance report: [cython-shuffle-gc-60ms-batched-send.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/6e382e68724b58209e8b091b8a1fa3af392534ac/results/cython-shuffle-gc-60ms-batched-send.html?raw=true)
 * Speedscope profile: [cython-shuffle-gc-60ms-batched-send.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F6e382e68724b58209e8b091b8a1fa3af392534ac%2Fresults%2Fcython-shuffle-gc-60ms-batched-send.json%3Fraw%3Dtrue)
 
+### cython-shuffle-gc-coassign
+* Performance report: [cython-shuffle-gc-coassign.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/6f67ef39133fd7a3772857dd2aec629bc6a6f3f7/results/cython-shuffle-gc-coassign.html?raw=true)
+* Speedscope profile: [cython-shuffle-gc-coassign.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F6f67ef39133fd7a3772857dd2aec629bc6a6f3f7%2Fresults%2Fcython-shuffle-gc-coassign.json%3Fraw%3Dtrue)
+
 ### cython-shuffle-gc-debug-noprofiling-ecs-prod-nopyspy
 * Logs: [cython-shuffle-gc-debug-noprofiling-ecs-prod-nopyspy.txt](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/61fc875173a5b2f9195346f2a523cb1d876c48ad/results/cython-shuffle-gc-debug-noprofiling-ecs-prod-nopyspy.txt?raw=true)
 
@@ -225,3 +229,7 @@ to get a comparison of GC impact without py-spy slowing things down.
 ### purepy-nogc
 * Performance report: [purepy-nogc.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/69c38f559af0d2adbf41b3e77892d58221dc992c/results/purepy-nogc.html?raw=true)
 * Speedscope profile: [purepy-nogc.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F69c38f559af0d2adbf41b3e77892d58221dc992c%2Fresults%2Fpurepy-nogc.json%3Fraw%3Dtrue)
+
+### purepy-shuffle-gc-coassign
+* Performance report: [purepy-shuffle-gc-coassign.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/f54586fc47e0de29cdc0e85232b635be7118508d/results/purepy-shuffle-gc-coassign.html?raw=true)
+* Speedscope profile: [purepy-shuffle-gc-coassign.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2Ff54586fc47e0de29cdc0e85232b635be7118508d%2Fresults%2Fpurepy-shuffle-gc-coassign.json%3Fraw%3Dtrue)
