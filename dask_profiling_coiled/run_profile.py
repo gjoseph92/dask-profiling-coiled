@@ -64,7 +64,6 @@ def main():
 if __name__ == "__main__":
     n_workers = 100
     cluster = coiled.Cluster(
-        name="gjoseph92-f41f744e-f",
         software="gjoseph92/profiling",
         n_workers=1,
         worker_cpu=1,
@@ -75,11 +74,11 @@ if __name__ == "__main__":
         scheduler_options={"idle_timeout": "1 hour"},
     )
     client = distributed.Client(cluster)
-    if not client.run_on_scheduler(lambda: distributed.scheduler.COMPILED):
-        print("Scheduler is not compiled!")
-        client.shutdown()
-        client.close()
-        sys.exit(1)
+    # if not client.run_on_scheduler(lambda: distributed.scheduler.COMPILED):
+    #     print("Scheduler is not compiled!")
+    #     client.shutdown()
+    #     client.close()
+    #     sys.exit(1)
 
     print(f"Waiting for {n_workers} workers...")
     try:
@@ -116,7 +115,7 @@ if __name__ == "__main__":
         }
     )
 
-    test_name = "cython-shuffle-gc-coassign"
+    test_name = "purepy-shuffle-gc-coassign"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
