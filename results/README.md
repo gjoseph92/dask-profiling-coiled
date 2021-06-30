@@ -230,6 +230,18 @@ to get a comparison of GC impact without py-spy slowing things down.
 * Performance report: [purepy-nogc.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/69c38f559af0d2adbf41b3e77892d58221dc992c/results/purepy-nogc.html?raw=true)
 * Speedscope profile: [purepy-nogc.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F69c38f559af0d2adbf41b3e77892d58221dc992c%2Fresults%2Fpurepy-nogc.json%3Fraw%3Dtrue)
 
+### purepy-shuffle-gc-coassign-short-circuit-len
+* Performance report: [purepy-shuffle-gc-coassign-short-circuit-len.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/0a0e7eb9e54a052382eae1f9a20892c6ed354934/results/purepy-shuffle-gc-coassign-short-circuit-len.html?raw=true)
+* Speedscope profile: [purepy-shuffle-gc-coassign-short-circuit-len.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F0a0e7eb9e54a052382eae1f9a20892c6ed354934%2Fresults%2Fpurepy-shuffle-gc-coassign-short-circuit-len.json%3Fraw%3Dtrue)
+
 ### purepy-shuffle-gc-coassign
 * Performance report: [purepy-shuffle-gc-coassign.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/f54586fc47e0de29cdc0e85232b635be7118508d/results/purepy-shuffle-gc-coassign.html?raw=true)
 * Speedscope profile: [purepy-shuffle-gc-coassign.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2Ff54586fc47e0de29cdc0e85232b635be7118508d%2Fresults%2Fpurepy-shuffle-gc-coassign.json%3Fraw%3Dtrue)
+
+### purepy-shuffle-nogc-coassign-short-circuit-len
+* Performance report: [purepy-shuffle-nogc-coassign-short-circuit-len.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/8c65254049cb8f1fcc4500367a8305d06425cd1c/results/purepy-shuffle-nogc-coassign-short-circuit-len.html?raw=true)
+* Speedscope profile: [purepy-shuffle-nogc-coassign-short-circuit-len.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F8c65254049cb8f1fcc4500367a8305d06425cd1c%2Fresults%2Fpurepy-shuffle-nogc-coassign-short-circuit-len.json%3Fraw%3Dtrue)
+
+### purepy-shuffle-nogc-coassign
+* Performance report: [purepy-shuffle-nogc-coassign.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/1b79d7ef54e9e2add31e58d1b8fe6e354a1d27a0/results/purepy-shuffle-nogc-coassign.html?raw=true)
+* Speedscope profile: [purepy-shuffle-nogc-coassign.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F1b79d7ef54e9e2add31e58d1b8fe6e354a1d27a0%2Fresults%2Fpurepy-shuffle-nogc-coassign.json%3Fraw%3Dtrue)
