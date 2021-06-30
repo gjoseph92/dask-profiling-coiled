@@ -115,7 +115,7 @@ if __name__ == "__main__":
         }
     )
 
-    test_name = "purepy-shuffle-gc-coassign"
+    test_name = "purepy-shuffle-gc-coassign-short-circuit-len"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
