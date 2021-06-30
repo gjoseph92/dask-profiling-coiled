@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Install py-spy separately so it doesn't conflict with Cythonized distributed
 cat > postbuild.sh <<EOF
