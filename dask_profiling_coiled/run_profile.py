@@ -28,8 +28,6 @@ def main() -> float:
 
 
 def trial(client: distributed.Client, i: int) -> dict:
-    client.restart()
-    print("[italic]Restarted cluster")
     initial_cpu = client.run_on_scheduler(lambda: psutil.cpu_times()._asdict())
 
     with distributed.performance_report(f"results/benchmarks/{test_name}-{i}.html"):
@@ -103,7 +101,7 @@ if __name__ == "__main__":
     )
 
     n_trials = 10
-    test_name = "purepy-shuffle-nogc"
+    test_name = "purepy-shuffle-nogc-norestart"
     trials = [trial(client, i) for i in range(n_trials)]
 
     print("[bold green]Trials complete!")
