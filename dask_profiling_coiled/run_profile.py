@@ -27,14 +27,15 @@ def main() -> float:
     return elapsed
 
 
-def trial(client: distributed.Client) -> dict:
+def trial(client: distributed.Client, i: int) -> dict:
     client.restart()
     print("[italic]Restarted cluster")
     initial_cpu = client.run_on_scheduler(lambda: psutil.cpu_times()._asdict())
 
-    elapsed = main()
+    with distributed.performance_report(f"results/benchmarks/{test_name}-{i}.html"):
+        elapsed = main()
+        final_cpu = client.run_on_scheduler(lambda: psutil.cpu_times()._asdict())
 
-    final_cpu = client.run_on_scheduler(lambda: psutil.cpu_times()._asdict())
     cpu_delta = {k: v - initial_cpu[k] for k, v in final_cpu.items()}
     cpu_count = client.run_on_scheduler(psutil.cpu_count)
 
@@ -57,7 +58,6 @@ def trial(client: distributed.Client) -> dict:
 if __name__ == "__main__":
     n_workers = 100
     cluster = coiled.Cluster(
-        name="profile",
         software="gjoseph92/profiling",
         n_workers=1,
         worker_cpu=1,
@@ -104,8 +104,7 @@ if __name__ == "__main__":
 
     n_trials = 10
     test_name = "purepy-shuffle-gc"
-    with distributed.performance_report(f"results/benchmarks/{test_name}.html"):
-        trials = [trial(client) for i in range(n_trials)]
+    trials = [trial(client, i) for i in range(n_trials)]
 
     print("[bold green]Trials complete!")
 
@@ -114,4 +113,4 @@ if __name__ == "__main__":
     df = pd.DataFrame.from_records(trials)
     df.to_csv(f"results/benchmarks/{test_name}.csv")
 
-    # client.shutdown()
+    client.shutdown()
