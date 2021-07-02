@@ -1,45 +1,19 @@
 import asyncio
 import sys
 import time
-import pickle
 
 import coiled
 import dask
-import dask.utils
 import dask.dataframe
 import distributed
-import distributed.protocol
+import psutil
 
 from scheduler_profilers import pyspy_on_scheduler
 
-
-def print_sizeof_serialized_graph(x) -> None:
-    start = time.perf_counter()
-    dsk = dask.base.collections_to_dsk([x], optimize_graph=True)
-    optimize_time = time.perf_counter() - start
-
-    start = time.perf_counter()
-    packed = dsk.__dask_distributed_pack__(distributed.get_client(), x.__dask_keys__())
-    pack_time = time.perf_counter() - start
-
-    start = time.perf_counter()
-    frames = distributed.protocol.dumps(packed)
-    dumps_time = time.perf_counter() - start
-    dumps = sum(len(f) for f in frames)
-
-    start = time.perf_counter()
-    pickled = len(pickle.dumps(packed))
-    pickle_time = time.perf_counter() - start
-
-    print(
-        f"Graph ({len(dsk)} optimized tasks) is:\n"
-        f"* {dask.utils.format_bytes(dumps)} with distributed-dumps ({len(frames)} frames) - {dumps_time:.1}s\n"
-        f"* {dask.utils.format_bytes(pickled)} pickled  - {pickle_time:.1}s\n"
-        f"Optimize: {optimize_time:.1}s, pack: {pack_time:.1}s"
-    )
+from .sizeof_graph import print_sizeof_serialized_graph
 
 
-def main():
+def main() -> float:
     df = dask.datasets.timeseries(
         start="2000-01-01",
         end="2000-06-30",  # 720 ~partitions
@@ -58,7 +32,7 @@ def main():
     df2 = shuffled.persist()
     distributed.wait(df2)
     elapsed = time.perf_counter() - start
-    print(f"{elapsed:.1f} sec")
+    return elapsed
 
 
 if __name__ == "__main__":
@@ -111,11 +85,13 @@ if __name__ == "__main__":
         {
             # This is key---otherwise we're uploading ~300MiB of graph to the scheduler
             "optimization.fuse.active": False,
+            # Handle flaky connections to Coiled
             "distributed.comm.retry.count": 5,
         }
     )
 
     test_name = "purepy-shuffle-nogc-coassign"
+    initial_cpu = client.run_on_scheduler(psutil.cpu_times)
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
@@ -125,7 +101,18 @@ if __name__ == "__main__":
             native=True,
         ),
     ):
-        main()
+        elapsed = main()
+        print(f"{elapsed:.1f} sec")
+
+    final_cpu = client.run_on_scheduler(psutil.cpu_times)
+    cpu_delta = type(final_cpu)(*(f - i for f, i in zip(final_cpu, initial_cpu)))
+    print(
+        "CPU times:",
+        f"Initial: {initial_cpu}",
+        f"Final: {final_cpu}",
+        f"Delta: {cpu_delta}",
+        sep="\n",
+    )
 
     client.shutdown()
     client.close()
