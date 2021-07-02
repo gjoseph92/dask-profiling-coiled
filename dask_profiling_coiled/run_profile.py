@@ -81,15 +81,15 @@ if __name__ == "__main__":
         pass
     client.wait_for_workers(n_workers)
 
-    # def disable_gc():
-    #     # https://github.com/benfred/py-spy/issues/389#issuecomment-833903190
-    #     import gc
+    def disable_gc():
+        # https://github.com/benfred/py-spy/issues/389#issuecomment-833903190
+        import gc
 
-    #     gc.disable()
-    #     gc.set_threshold(0)
+        gc.disable()
+        gc.set_threshold(0)
 
-    # print("Disabling GC on scheduler")
-    # client.run_on_scheduler(disable_gc)
+    print("Disabling GC on scheduler")
+    client.run_on_scheduler(disable_gc)
 
     print("[bold green]Here we go!")
 
@@ -103,7 +103,7 @@ if __name__ == "__main__":
     )
 
     n_trials = 10
-    test_name = "purepy-shuffle-gc"
+    test_name = "purepy-shuffle-nogc"
     trials = [trial(client, i) for i in range(n_trials)]
 
     print("[bold green]Trials complete!")
