@@ -1,9 +1,11 @@
 import asyncio
 import sys
 import time
+from typing import Dict, cast, Tuple
 
 import coiled
 import dask
+import dask.utils
 import dask.dataframe
 import distributed
 import pandas as pd
@@ -28,28 +30,50 @@ def main() -> float:
 
 
 def trial(client: distributed.Client, i: int) -> dict:
-    initial_cpu = client.run_on_scheduler(lambda: psutil.cpu_times()._asdict())
+    r = client.run_on_scheduler(
+        lambda: (psutil.cpu_times()._asdict(), psutil.Process().memory_info()._asdict())
+    )
+    initial_cpu, initial_mem = cast(Tuple[Dict[str, float], Dict[str, float]], r)
 
     with distributed.performance_report(f"results/benchmarks/{test_name}-{i}.html"):
         elapsed = main()
-        final_cpu = client.run_on_scheduler(lambda: psutil.cpu_times()._asdict())
+        r = client.run_on_scheduler(
+            lambda: (
+                psutil.cpu_times()._asdict(),
+                psutil.Process().memory_info()._asdict(),
+            )
+        )
+        final_cpu, final_mem = cast(Tuple[Dict[str, float], Dict[str, float]], r)
 
     cpu_delta = {k: v - initial_cpu[k] for k, v in final_cpu.items()}
+    mem_delta = {k: v - initial_mem[k] for k, v in final_mem.items()}
     cpu_count = client.run_on_scheduler(psutil.cpu_count)
+
+    def formatted(mem_info: dict) -> dict:
+        return {k: dask.utils.format_bytes(v) for k, v in mem_info.items()}
 
     print(f"[bold]{elapsed:.1f} sec")
     print(
-        "CPU times:",
+        "[underline]CPU times:[/]",
         f"Initial: {initial_cpu}",
         f"Final: {final_cpu}",
         f"Delta: {cpu_delta}",
+        "[underline]Memory:[/]",
+        f"Initial: {formatted(initial_mem)}",
+        f"Final: {formatted(final_mem)}",
+        f"Delta: {formatted(mem_delta)}",
         sep="\n",
     )
+
+    def prefix(p: str, d: dict) -> dict:
+        return {p + k: v for k, v in d.items()}
 
     return {
         "elapsed": elapsed,
         **cpu_delta,
         cpu_count: cpu_count,
+        **prefix("initial-", initial_mem),
+        **prefix("final-", initial_mem),
     }
 
 
@@ -102,8 +126,14 @@ if __name__ == "__main__":
     )
 
     n_trials = 10
-    test_name = "purepy-shuffle-nogc-norestart-malloctrim"
-    trials = [trial(client, i) for i in range(n_trials)]
+    test_name = "purepy-shuffle-nogc-norestart-malloctrim-meminfo"
+    trials = []
+    try:
+        for i in range(n_trials):
+            trials.append(trial(client, i))
+    except BaseException:
+        print(trials)
+        raise
 
     print("[bold green]Trials complete!")
 
