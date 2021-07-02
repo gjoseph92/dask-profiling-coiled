@@ -57,6 +57,7 @@ def trial(client: distributed.Client) -> dict:
 if __name__ == "__main__":
     n_workers = 100
     cluster = coiled.Cluster(
+        name="profile",
         software="gjoseph92/profiling",
         n_workers=1,
         worker_cpu=1,
@@ -80,23 +81,15 @@ if __name__ == "__main__":
         pass
     client.wait_for_workers(n_workers)
 
-    def disable_gc():
-        # https://github.com/benfred/py-spy/issues/389#issuecomment-833903190
-        import gc
-
-        gc.disable()
-        gc.set_threshold(0)
-
-    print("Disabling GC on scheduler")
-    client.run_on_scheduler(disable_gc)
-
-    # def enable_gc_debug():
+    # def disable_gc():
+    #     # https://github.com/benfred/py-spy/issues/389#issuecomment-833903190
     #     import gc
 
-    #     gc.set_debug(gc.DEBUG_STATS | gc.DEBUG_COLLECTABLE | gc.DEBUG_UNCOLLECTABLE)
+    #     gc.disable()
+    #     gc.set_threshold(0)
 
-    # print("Enabling GC debug logging on scheduler")
-    # client.run_on_scheduler(enable_gc_debug)
+    # print("Disabling GC on scheduler")
+    # client.run_on_scheduler(disable_gc)
 
     print("[bold green]Here we go!")
 
@@ -109,8 +102,8 @@ if __name__ == "__main__":
         }
     )
 
-    n_trials = 20
-    test_name = "purepy-shuffle-nogc-coassign"
+    n_trials = 10
+    test_name = "purepy-shuffle-gc"
     with distributed.performance_report(f"results/benchmarks/{test_name}.html"):
         trials = [trial(client) for i in range(n_trials)]
 
@@ -121,4 +114,4 @@ if __name__ == "__main__":
     df = pd.DataFrame.from_records(trials)
     df.to_csv(f"results/benchmarks/{test_name}.csv")
 
-    client.shutdown()
+    # client.shutdown()

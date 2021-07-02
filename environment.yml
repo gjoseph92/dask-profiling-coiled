@@ -22,7 +22,7 @@ dependencies:
   - black=21.5b0
   - pip:
       - coiled==0.0.43
-      - git+https://github.com/gjoseph92/distributed.git@2616d80d7fea25753f516473e456b2eb9c657bf5
+      - git+https://github.com/dask/distributed.git@main
       - git+https://github.com/dask/dask.git@main
       # - git+https://github.com/gjoseph92/scheduler-profilers.git  # TODO this conflicts with --install-option for distributed, using postBuild instead
       # - git+https://github.com/gjoseph92/dask-noop.git
