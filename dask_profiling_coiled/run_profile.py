@@ -6,11 +6,9 @@ import coiled
 import dask
 import dask.dataframe
 import distributed
+import pandas as pd
 import psutil
-
-from scheduler_profilers import pyspy_on_scheduler
-
-from .sizeof_graph import print_sizeof_serialized_graph
+from rich import print
 
 
 def main() -> float:
@@ -20,19 +18,40 @@ def main() -> float:
         partition_freq="1h",
         freq="60s",
     )
-    df = df.persist()
-    distributed.wait(df)
-    print("DataFrame persisted")
-
     shuffled = df.shuffle("id", shuffle="tasks")
-
-    print_sizeof_serialized_graph(shuffled)
 
     start = time.perf_counter()
     df2 = shuffled.persist()
     distributed.wait(df2)
     elapsed = time.perf_counter() - start
     return elapsed
+
+
+def trial(client: distributed.Client) -> dict:
+    client.restart()
+    print("[italic]Restarted cluster")
+    initial_cpu = client.run_on_scheduler(lambda: psutil.cpu_times()._asdict())
+
+    elapsed = main()
+
+    final_cpu = client.run_on_scheduler(lambda: psutil.cpu_times()._asdict())
+    cpu_delta = {k: v - initial_cpu[k] for k, v in final_cpu.items()}
+    cpu_count = client.run_on_scheduler(psutil.cpu_count)
+
+    print(f"[bold]{elapsed:.1f} sec")
+    print(
+        "CPU times:",
+        f"Initial: {initial_cpu}",
+        f"Final: {final_cpu}",
+        f"Delta: {cpu_delta}",
+        sep="\n",
+    )
+
+    return {
+        "elapsed": elapsed,
+        **cpu_delta,
+        cpu_count: cpu_count,
+    }
 
 
 if __name__ == "__main__":
@@ -79,7 +98,7 @@ if __name__ == "__main__":
     # print("Enabling GC debug logging on scheduler")
     # client.run_on_scheduler(enable_gc_debug)
 
-    print("Here we go!")
+    print("[bold green]Here we go!")
 
     dask.config.set(
         {
@@ -90,29 +109,16 @@ if __name__ == "__main__":
         }
     )
 
+    n_trials = 20
     test_name = "purepy-shuffle-nogc-coassign"
-    initial_cpu = client.run_on_scheduler(psutil.cpu_times)
-    with (
-        distributed.performance_report(f"results/{test_name}.html"),
-        pyspy_on_scheduler(
-            f"results/{test_name}.json",
-            subprocesses=True,
-            idle=True,
-            native=True,
-        ),
-    ):
-        elapsed = main()
-        print(f"{elapsed:.1f} sec")
+    with distributed.performance_report(f"results/benchmarks/{test_name}.html"):
+        trials = [trial(client) for i in range(n_trials)]
 
-    final_cpu = client.run_on_scheduler(psutil.cpu_times)
-    cpu_delta = type(final_cpu)(*(f - i for f, i in zip(final_cpu, initial_cpu)))
-    print(
-        "CPU times:",
-        f"Initial: {initial_cpu}",
-        f"Final: {final_cpu}",
-        f"Delta: {cpu_delta}",
-        sep="\n",
-    )
+    print("[bold green]Trials complete!")
+
+    print(trials)
+
+    df = pd.DataFrame.from_records(trials)
+    df.to_csv(f"results/benchmarks/{test_name}.csv")
 
     client.shutdown()
-    client.close()
