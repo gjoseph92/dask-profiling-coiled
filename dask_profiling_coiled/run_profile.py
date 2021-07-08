@@ -88,6 +88,7 @@ if __name__ == "__main__":
         scheduler_memory="8 GiB",
         shutdown_on_close=True,
         scheduler_options={"idle_timeout": "1 hour"},
+        environ={"MALLOC_TRIM_THRESHOLD_": "0"},
     )
     client = distributed.Client(cluster)
     # if not client.run_on_scheduler(lambda: distributed.scheduler.COMPILED):
@@ -125,7 +126,7 @@ if __name__ == "__main__":
     )
 
     n_trials = 10
-    test_name = "purepy-shuffle-nogc-norestart-meminfo"
+    test_name = "purepy-shuffle-nogc"
     trials = []
     try:
         for i in range(n_trials):
