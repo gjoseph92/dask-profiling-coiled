@@ -71,9 +71,9 @@ def trial(client: distributed.Client, i: int) -> dict:
     return {
         "elapsed": elapsed,
         **cpu_delta,
-        cpu_count: cpu_count,
+        "cpu_count": cpu_count,
         **prefix("initial-", initial_mem),
-        **prefix("final-", initial_mem),
+        **prefix("final-", final_mem),
     }
 
 
@@ -138,7 +138,7 @@ if __name__ == "__main__":
 
     print(trials)
 
-    df = pd.DataFrame.from_records(trials)
+    df = pd.DataFrame.from_records(trials).rename_axis("trial")
     df.to_csv(f"results/benchmarks/{test_name}.csv")
 
     client.shutdown()
