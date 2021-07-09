@@ -4,6 +4,7 @@ import pickle
 import dask
 import dask.utils
 import dask.dataframe
+import dask.highlevelgraph
 import distributed
 import distributed.protocol
 
@@ -12,6 +13,9 @@ def print_sizeof_serialized_graph(x) -> None:
     start = time.perf_counter()
     dsk = dask.base.collections_to_dsk([x], optimize_graph=True)
     optimize_time = time.perf_counter() - start
+
+    if not isinstance(dsk, dask.highlevelgraph.HighLevelGraph):
+        dsk = dask.highlevelgraph.HighLevelGraph.merge(dsk)
 
     start = time.perf_counter()
     packed = dsk.__dask_distributed_pack__(distributed.get_client(), x.__dask_keys__())
