@@ -80,7 +80,7 @@ if __name__ == "__main__":
         n_workers=1,
         worker_cpu=1,
         worker_memory="4 GiB",
-        scheduler_cpu=4,
+        scheduler_cpu=1,
         scheduler_memory="8 GiB",
         shutdown_on_close=True,
         scheduler_options={"idle_timeout": "1 hour"},
