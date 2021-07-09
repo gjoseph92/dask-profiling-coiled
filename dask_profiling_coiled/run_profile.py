@@ -6,7 +6,7 @@ from typing import Dict, cast, Tuple
 import coiled
 import dask
 import dask.utils
-import dask.dataframe
+import dask.array as da
 import distributed
 import pandas as pd
 import psutil
@@ -14,17 +14,13 @@ from rich import print
 
 
 def main() -> float:
-    df = dask.datasets.timeseries(
-        start="2000-01-01",
-        end="2000-06-30",  # 720 ~partitions
-        partition_freq="1h",
-        freq="60s",
-    )
-    shuffled = df.shuffle("id", shuffle="tasks")
+    x = da.random.random((80_000, 80_000), chunks=500)
+    y = x + x.T
+    z = (y - x.mean(axis=0)).mean()
 
     start = time.perf_counter()
-    df2 = shuffled.persist()
-    distributed.wait(df2)
+    z2 = z.persist()
+    distributed.wait(z2)
     elapsed = time.perf_counter() - start
     return elapsed
 
