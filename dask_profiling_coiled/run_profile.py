@@ -27,7 +27,7 @@ def main() -> float:
 
 def trial(client: distributed.Client, i: int) -> dict:
     r = client.run_on_scheduler(
-        lambda: (psutil.cpu_times()._asdict(), psutil.Process().memory_info()._asdict())
+        lambda: (psutil.cpu_times(percpu=True)[0]._asdict(), psutil.Process().memory_info()._asdict())
     )
     initial_cpu, initial_mem = cast(Tuple[Dict[str, float], Dict[str, float]], r)
 
@@ -35,7 +35,7 @@ def trial(client: distributed.Client, i: int) -> dict:
         elapsed = main()
         r = client.run_on_scheduler(
             lambda: (
-                psutil.cpu_times()._asdict(),
+                psutil.cpu_times(percpu=True)[0]._asdict(),
                 psutil.Process().memory_info()._asdict(),
             )
         )
@@ -44,6 +44,7 @@ def trial(client: distributed.Client, i: int) -> dict:
     cpu_delta = {k: v - initial_cpu[k] for k, v in final_cpu.items()}
     mem_delta = {k: v - initial_mem[k] for k, v in final_mem.items()}
     cpu_count = client.run_on_scheduler(psutil.cpu_count)
+    current_cpu = client.run_on_scheduler(lambda: psutil.Process().cpu_num())
 
     def formatted(mem_info: dict) -> dict:
         return {k: dask.utils.format_bytes(v) for k, v in mem_info.items()}
@@ -68,6 +69,7 @@ def trial(client: distributed.Client, i: int) -> dict:
         "elapsed": elapsed,
         **cpu_delta,
         "cpu_count": cpu_count,
+        "current_cpu": current_cpu,
         **prefix("initial-", initial_mem),
         **prefix("final-", final_mem),
     }
@@ -87,6 +89,9 @@ if __name__ == "__main__":
 #         environ={"MALLOC_TRIM_THRESHOLD_": "0"},
     )
     client = distributed.Client(cluster)
+    # Pin scheduler to CPU 0
+    client.run_on_scheduler(lambda: psutil.Process().cpu_affinity([0]))
+
     # if not client.run_on_scheduler(lambda: distributed.scheduler.COMPILED):
     #     print("Scheduler is not compiled!")
     #     client.shutdown()
