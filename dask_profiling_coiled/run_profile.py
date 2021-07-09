@@ -86,7 +86,7 @@ if __name__ == "__main__":
         scheduler_memory="8 GiB",
         shutdown_on_close=True,
         scheduler_options={"idle_timeout": "1 hour"},
-#         environ={"MALLOC_TRIM_THRESHOLD_": "0"},
+        environ={"MALLOC_TRIM_THRESHOLD_": "0"},
     )
     client = distributed.Client(cluster)
     # Pin scheduler to CPU 0
@@ -127,7 +127,7 @@ if __name__ == "__main__":
     )
 
     n_trials = 10
-    test_name = "purepy-shuffle-gc-notrim"
+    test_name = "purepy-meantrans-gc"
     trials = []
     try:
         for i in range(n_trials):
