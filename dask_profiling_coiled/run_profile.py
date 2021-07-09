@@ -6,7 +6,7 @@ from typing import Dict, cast, Tuple
 import coiled
 import dask
 import dask.utils
-import dask.array as da
+import dask.dataframe
 import distributed
 import pandas as pd
 import psutil
@@ -14,13 +14,17 @@ from rich import print
 
 
 def main() -> float:
-    x = da.random.random((80_000, 80_000), chunks=500)
-    y = x + x.T
-    z = (y - x.mean(axis=0)).mean()
+    df = dask.datasets.timeseries(
+        start="2000-01-01",
+        end="2000-06-30",  # 720 ~partitions
+        partition_freq="1h",
+        freq="60s",
+    )
+    shuffled = df.shuffle("id", shuffle="tasks")
 
     start = time.perf_counter()
-    z2 = z.persist()
-    distributed.wait(z2)
+    df2 = shuffled.persist()
+    distributed.wait(df2)
     elapsed = time.perf_counter() - start
     return elapsed
 
@@ -127,7 +131,7 @@ if __name__ == "__main__":
     )
 
     n_trials = 10
-    test_name = "purepy-meantrans-nogc"
+    test_name = "purepy-shuffle-nogc"
     trials = []
     try:
         for i in range(n_trials):
