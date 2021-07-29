@@ -230,6 +230,14 @@ to get a comparison of GC impact without py-spy slowing things down.
 * Performance report: [purepy-nogc.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/69c38f559af0d2adbf41b3e77892d58221dc992c/results/purepy-nogc.html?raw=true)
 * Speedscope profile: [purepy-nogc.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F69c38f559af0d2adbf41b3e77892d58221dc992c%2Fresults%2Fpurepy-nogc.json%3Fraw%3Dtrue)
 
+### purepy-shuffle-gc-asyncbatchedsend-nohttp
+* Performance report: [purepy-shuffle-gc-asyncbatchedsend-nohttp.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/2d852ec9fac692d4ae566589d8c9fd528f7771d8/results/purepy-shuffle-gc-asyncbatchedsend-nohttp.html?raw=true)
+* Speedscope profile: [purepy-shuffle-gc-asyncbatchedsend-nohttp.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F2d852ec9fac692d4ae566589d8c9fd528f7771d8%2Fresults%2Fpurepy-shuffle-gc-asyncbatchedsend-nohttp.json%3Fraw%3Dtrue)
+
+### purepy-shuffle-gc-asyncbatchedsend
+* Performance report: [purepy-shuffle-gc-asyncbatchedsend.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/3f67af2dcaa0b866f994fe7c7b0c9b11d9fa6071/results/purepy-shuffle-gc-asyncbatchedsend.html?raw=true)
+* Speedscope profile: [purepy-shuffle-gc-asyncbatchedsend.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F3f67af2dcaa0b866f994fe7c7b0c9b11d9fa6071%2Fresults%2Fpurepy-shuffle-gc-asyncbatchedsend.json%3Fraw%3Dtrue)
+
 ### purepy-shuffle-gc-coassign-short-circuit-len
 * Performance report: [purepy-shuffle-gc-coassign-short-circuit-len.html](https://rawcdn.githack.com/gjoseph92/dask-profiling-coiled/0a0e7eb9e54a052382eae1f9a20892c6ed354934/results/purepy-shuffle-gc-coassign-short-circuit-len.html?raw=true)
 * Speedscope profile: [purepy-shuffle-gc-coassign-short-circuit-len.json](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fgjoseph92%2Fdask-profiling-coiled%2F0a0e7eb9e54a052382eae1f9a20892c6ed354934%2Fresults%2Fpurepy-shuffle-gc-coassign-short-circuit-len.json%3Fraw%3Dtrue)
