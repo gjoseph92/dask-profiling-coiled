@@ -6,7 +6,6 @@ import coiled
 import dask
 import dask.dataframe
 import distributed
-import psutil
 
 from scheduler_profilers import pyspy_on_scheduler
 
@@ -91,7 +90,6 @@ if __name__ == "__main__":
     )
 
     test_name = "purepy-shuffle-gc-asyncbatchedsend"
-    initial_cpu = client.run_on_scheduler(psutil.cpu_times)
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
@@ -103,16 +101,6 @@ if __name__ == "__main__":
     ):
         elapsed = main()
         print(f"{elapsed:.1f} sec")
-
-    final_cpu = client.run_on_scheduler(psutil.cpu_times)
-    cpu_delta = type(final_cpu)(*(f - i for f, i in zip(final_cpu, initial_cpu)))
-    print(
-        "CPU times:",
-        f"Initial: {initial_cpu}",
-        f"Final: {final_cpu}",
-        f"Delta: {cpu_delta}",
-        sep="\n",
-    )
 
     client.shutdown()
     client.close()
