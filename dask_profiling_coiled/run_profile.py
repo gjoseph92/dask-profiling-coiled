@@ -45,6 +45,10 @@ if __name__ == "__main__":
         scheduler_memory="8 GiB",
         shutdown_on_close=True,
         scheduler_options={"idle_timeout": "1 hour"},
+        environ=dict(
+            # everything else may cause GC cycles
+            DASK_DISTRIBUTED__SCHEDULER__HTTP__ROUTES="['distributed.http.health']",
+        ),
     )
     client = distributed.Client(cluster)
     # if not client.run_on_scheduler(lambda: distributed.scheduler.COMPILED):
@@ -89,7 +93,7 @@ if __name__ == "__main__":
         }
     )
 
-    test_name = "purepy-shuffle-gc-asyncbatchedsend"
+    test_name = "purepy-shuffle-gc-asyncbatchedsend-nohttp"
     with (
         distributed.performance_report(f"results/{test_name}.html"),
         pyspy_on_scheduler(
