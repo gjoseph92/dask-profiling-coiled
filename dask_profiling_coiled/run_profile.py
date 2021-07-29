@@ -10,7 +10,7 @@ import psutil
 
 from scheduler_profilers import pyspy_on_scheduler
 
-from .sizeof_graph import print_sizeof_serialized_graph
+from sizeof_graph import print_sizeof_serialized_graph
 
 
 def main() -> float:
